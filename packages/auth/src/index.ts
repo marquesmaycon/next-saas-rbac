@@ -2,7 +2,7 @@ import type { CreateAbility, MongoAbility } from '@casl/ability'
 import { AbilityBuilder, createMongoAbility } from '@casl/ability'
 import z from 'zod'
 
-import { type User } from './models/user'
+import type { User } from './models/user'
 import { permissions } from './permissions'
 import { billingSubject } from './subjects/billing'
 import { inviteSubject } from './subjects/invite'
