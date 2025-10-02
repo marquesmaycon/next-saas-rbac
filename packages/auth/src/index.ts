@@ -1,12 +1,25 @@
 import type { CreateAbility, MongoAbility } from '@casl/ability'
 import { AbilityBuilder, createMongoAbility } from '@casl/ability'
+import z from 'zod'
 
-import type { User } from './models/user'
+import { type User } from './models/user'
 import { permissions } from './permissions'
-import { ProjectSubject } from './subjects/projects'
-import { UserSubject } from './subjects/user'
+import { billingSubject } from './subjects/billing'
+import { inviteSubject } from './subjects/invite'
+import { organizationSubject } from './subjects/organization'
+import { projectSubject } from './subjects/projects'
+import { userSubject } from './subjects/user'
 
-type AppAbilities = UserSubject | ProjectSubject | ['manage', 'all']
+const appAbilitiesSchema = z.union([
+  userSubject,
+  inviteSubject,
+  projectSubject,
+  organizationSubject,
+  billingSubject,
+  z.tuple([z.literal('manage'), z.literal('all')]),
+])
+
+type AppAbilities = z.infer<typeof appAbilitiesSchema>
 
 export type AppAbility = MongoAbility<AppAbilities>
 export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>
