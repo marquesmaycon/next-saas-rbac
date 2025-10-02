@@ -1,8 +1,6 @@
 {
   "name": "@saas/eslint-config",
   "version": "0.0.0",
-    "type": "module",
-
   "private": true,
   "files": [
     "base.js",
@@ -16,7 +14,6 @@
   },
   "prettier": "@saas/prettier",
   "eslintConfig": {
-    "extends": [        "./base.js"
-    ]
+    "extends": ["./base.js"]
   }
 }
