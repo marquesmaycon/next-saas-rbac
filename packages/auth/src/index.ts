@@ -35,5 +35,7 @@ export function defineAbilitiesFor(user: User) {
 
   userPermissions(user, builder)
 
-  return builder.build()
+  return builder.build({
+    detectSubjectType: ({ __typename }) => __typename,
+  })
 }
