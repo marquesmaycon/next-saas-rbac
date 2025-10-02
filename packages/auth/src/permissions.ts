@@ -11,10 +11,11 @@ type PermissionsByRole = (
 ) => void
 
 export const permissions: Record<Role, PermissionsByRole> = {
-  ADMIN: (_, { can }) => {
+  ADMIN: (_: User, { can }) => {
     can('manage', 'all')
   },
-  MEMBER: (_, { can }) => {
+  MEMBER: (_: User, { can }) => {
     can('invite', 'User')
+    can('create', 'Project')
   },
 }
