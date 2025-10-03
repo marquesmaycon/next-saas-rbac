@@ -1,6 +1,6 @@
 {
   "extends": "@saas/tsconfig/node.json",
-  "include": ["src/**/*", "@types/**/*.d.ts"],
+  "include": ["src/**/*", "@types/**/*.d.ts", "prisma/**/*.ts"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
