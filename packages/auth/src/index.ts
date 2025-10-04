@@ -39,7 +39,12 @@ export function defineAbilitiesFor(user: User) {
 
   userPermissions(user, builder)
 
-  return builder.build({
+  const ability = builder.build({
     detectSubjectType: ({ __typename }) => __typename,
   })
+
+  ability.can = ability.can.bind(ability)
+  ability.cannot = ability.cannot.bind(ability)
+
+  return ability
 }
