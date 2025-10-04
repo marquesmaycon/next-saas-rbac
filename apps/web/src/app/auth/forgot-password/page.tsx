@@ -9,11 +9,11 @@ export default function ForgotPasswordPage() {
     <form action="" className="space-y-4">
       <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
-        <Input type="email" id="email" className="input" />
+        <Input type="email" id="email" name="email" />
       </div>
 
       <Button className="w-full" type="submit">
-        Recorver password
+        Recover password
       </Button>
 
       <Button variant="link" size="sm" className="w-full" asChild>

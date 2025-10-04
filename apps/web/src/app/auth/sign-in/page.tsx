@@ -12,11 +12,12 @@ export default function SignInPage() {
     <form action="" className="space-y-4">
       <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
-        <Input type="email" id="email" className="input" />
+        <Input type="email" id="email" name="email" />
       </div>
+
       <div className="space-y-1">
         <Label htmlFor="password">Password</Label>
-        <Input type="password" id="password" className="input" />
+        <Input type="password" id="password" name="password" />
 
         <Link
           href="/auth/forgot-password"

@@ -12,22 +12,26 @@ export default function SignUpPage() {
     <form action="" className="space-y-4">
       <div className="space-y-1">
         <Label htmlFor="name">Name</Label>
-        <Input id="name" className="input" />
+        <Input id="name" name="name" />
       </div>
 
       <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
-        <Input type="email" id="email" className="input" />
+        <Input type="email" id="email" name="email" />
       </div>
 
       <div className="space-y-1">
         <Label htmlFor="password">Password</Label>
-        <Input type="password" id="password" className="input" />
+        <Input type="password" id="password" name="password" />
       </div>
 
       <div className="space-y-1">
         <Label htmlFor="password_confirmation">Password Confirmation</Label>
-        <Input type="password" id="password_confirmation" className="input" />
+        <Input
+          type="password"
+          id="password_confirmation"
+          name="password_confirmation"
+        />
       </div>
 
       <Button className="w-full" type="submit">
