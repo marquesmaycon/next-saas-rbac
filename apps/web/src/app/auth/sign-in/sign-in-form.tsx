@@ -12,11 +12,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 
-import { type SignInResponse, signInWithCredentials } from './actions'
+import { signInWithCredentials } from './actions'
 
-const initialState: SignInResponse = {
+const initialState = {
   success: false,
-  message: null,
+  message: '',
   errors: null,
   fields: { email: '', password: '' },
 }

@@ -2,8 +2,8 @@
 
 import { HTTPError } from 'ky'
 import z from 'zod'
-import type { $ZodErrorTree } from 'zod/v4/core'
 
+import type { FormState } from '@/hooks/use-form-state'
 import { signInWithPassword } from '@/http/sign-in-with-password'
 
 const signInSchema = z.object({
@@ -11,17 +11,11 @@ const signInSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters long.'),
 })
 
-export type SignInResponse = {
-  success: boolean
-  message: string | null
-  errors: $ZodErrorTree<z.infer<typeof signInSchema>> | null
+export type SignInResponse = FormState<typeof signInSchema.shape> & {
   fields: { email: string; password: string } | null
 }
 
-export async function signInWithCredentials(
-  _: unknown,
-  formData: FormData,
-): Promise<SignInResponse> {
+export async function signInWithCredentials(_: unknown, formData: FormData) {
   const rawData = {
     email: formData.get('email')?.toString() ?? '',
     password: formData.get('password')?.toString() ?? '',
