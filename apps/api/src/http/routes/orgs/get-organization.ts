@@ -19,12 +19,12 @@ export async function getOrganization(app: FastifyInstance) {
           response: {
             200: z.object({
               organization: z.object({
-                id: z.string(),
+                id: z.uuid(),
                 name: z.string(),
                 slug: z.string(),
                 domain: z.string().nullish(),
                 attachUsersByDomain: z.boolean(),
-                avatarUrl: z.string().nullish(),
+                avatarUrl: z.url().nullish(),
                 createdAt: z.date(),
                 updatedAt: z.date(),
                 ownerId: z.uuid(),
