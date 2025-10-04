@@ -7,31 +7,35 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-export default function SignInPage() {
+export default function SignUpPage() {
   return (
     <form action="" className="space-y-4">
+      <div className="space-y-1">
+        <Label htmlFor="name">Name</Label>
+        <Input id="name" className="input" />
+      </div>
+
       <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
         <Input type="email" id="email" className="input" />
       </div>
+
       <div className="space-y-1">
         <Label htmlFor="password">Password</Label>
         <Input type="password" id="password" className="input" />
+      </div>
 
-        <Link
-          href="/auth/forgot-password"
-          className="text-foreground text-xs font-medium hover:underline"
-        >
-          Forgot your password?
-        </Link>
+      <div className="space-y-1">
+        <Label htmlFor="password_confirmation">Password Confirmation</Label>
+        <Input type="password" id="password_confirmation" className="input" />
       </div>
 
       <Button className="w-full" type="submit">
-        Sign in with e-mail
+        Create Account
       </Button>
 
       <Button variant="link" size="sm" className="w-full" asChild>
-        <Link href="/auth/sign-up">Create a new account</Link>
+        <Link href="/auth/sign-in">Already have an account? Sign in</Link>
       </Button>
 
       <Separator />
@@ -42,7 +46,7 @@ export default function SignInPage() {
           alt="GitHub"
           className="mr-4 size-4 dark:invert"
         />
-        Sign in with GitHub
+        Sign up with GitHub
       </Button>
     </form>
   )
