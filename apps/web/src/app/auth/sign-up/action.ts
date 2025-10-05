@@ -21,9 +21,7 @@ const signUpSchema = z
     path: ['password_confirmation'],
   })
 
-type SignUpResponse = FormState<typeof signUpSchema.shape> & {
-  fields: { name: string; email: string; password: string } | null
-}
+type SignUpResponse = FormState<typeof signUpSchema.shape>
 
 export async function signUpAction(
   _: unknown,

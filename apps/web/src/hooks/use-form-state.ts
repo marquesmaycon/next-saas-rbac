@@ -6,7 +6,7 @@ export type FormState<T extends z.ZodRawShape = z.ZodRawShape> = {
   success: boolean
   message: string
   errors: $ZodErrorTree<T> | null
-  fields?: Record<string, string> | null
+  fields: z.infer<z.ZodObject<T>> | null
 }
 
 export function useFormState<T extends z.ZodRawShape>(

@@ -13,9 +13,7 @@ const signInSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters long.'),
 })
 
-type SignInResponse = FormState<typeof signInSchema.shape> & {
-  fields: { email: string; password: string } | null
-}
+type SignInResponse = FormState<typeof signInSchema.shape>
 
 export async function signInWithPassword(
   _: unknown,
