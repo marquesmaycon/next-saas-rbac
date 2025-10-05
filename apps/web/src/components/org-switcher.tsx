@@ -1,8 +1,8 @@
 import { AvatarFallback } from '@radix-ui/react-avatar'
 import { ChevronsUpDown, PlusCircle } from 'lucide-react'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
 
+import { getCurrentOrg } from '@/auth/auth'
 import { getOrganizations } from '@/http/get-organizations'
 
 import { Avatar, AvatarImage } from './ui/avatar'
@@ -17,10 +17,9 @@ import {
 } from './ui/dropdown-menu'
 
 export async function OrgSwitcher() {
-  const ck = await cookies()
   const { organizations } = await getOrganizations()
 
-  const org = ck.get('org')?.value
+  const org = await getCurrentOrg()
   const crrOrg = organizations.find((o) => o.slug === org)
 
   return (
