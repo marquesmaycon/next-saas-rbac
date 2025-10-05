@@ -1,8 +1,17 @@
+import { redirect } from 'next/navigation'
+
+import { ability } from '@/auth/auth'
 import { Header } from '@/components/header'
 
 import { ProjectForm } from './project-form'
 
-export default function CreateProject() {
+export default async function CreateProject() {
+  const permission = await ability()
+
+  if (permission?.cannot('create', 'Project')) {
+    redirect('/')
+  }
+
   return (
     <div className="space-y-4 py-4">
       <Header />
