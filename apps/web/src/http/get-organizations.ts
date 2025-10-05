@@ -11,6 +11,6 @@ type GetOrganizationsResponse = {
 }
 
 export async function getOrganizations() {
-  const res = await api.get('profile').json<GetOrganizationsResponse>()
+  const res = await api.get('organizations').json<GetOrganizationsResponse>()
   return res
 }
