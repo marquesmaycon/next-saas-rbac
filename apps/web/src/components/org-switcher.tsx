@@ -31,7 +31,7 @@ export async function OrgSwitcher() {
           <span className="text-muted-foreground">Select an Org</span>
         )}
 
-        <ChevronsUpDown className="text-muted-foreground ml-auto size-4" />
+        <ChevronsUpDown className="text-muted-foreground ml-auto size-4 shrink-0" />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
