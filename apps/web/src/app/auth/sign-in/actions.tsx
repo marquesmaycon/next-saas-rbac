@@ -1,6 +1,8 @@
 'use server'
 
 import { HTTPError } from 'ky'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import z from 'zod'
 
 import type { FormState } from '@/hooks/use-form-state'
@@ -34,14 +36,10 @@ export async function signInWithCredentials(_: unknown, formData: FormData) {
       }
     }
 
-    await signInWithPassword(data)
+    const { token } = await signInWithPassword(data)
 
-    return {
-      success: true,
-      message: 'Sign in successful.',
-      errors: null,
-      fields: null,
-    }
+    const ck = await cookies()
+    ck.set('token', token, { path: '/', maxAge: 60 * 60 * 24 * 7 })
   } catch (error) {
     if (error instanceof HTTPError) {
       const { message } = await error.response.json<{ message: string }>()
@@ -60,4 +58,6 @@ export async function signInWithCredentials(_: unknown, formData: FormData) {
       fields: rawData,
     }
   }
+
+  redirect('/')
 }
