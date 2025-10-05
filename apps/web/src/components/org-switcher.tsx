@@ -2,6 +2,8 @@ import { AvatarFallback } from '@radix-ui/react-avatar'
 import { ChevronsUpDown, PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 
+import { getOrganizations } from '@/http/get-organizations'
+
 import { Avatar, AvatarImage } from './ui/avatar'
 import {
   DropdownMenu,
@@ -13,7 +15,8 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
 
-export function OrgSwitcher() {
+export async function OrgSwitcher() {
+  const { organizations } = await getOrganizations()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus-visible:ring-primary flex w-[168px] items-center gap-2 rounded p-1 text-sm font-medium outline-none focus-visible:ring-2">
@@ -28,27 +31,21 @@ export function OrgSwitcher() {
       >
         <DropdownMenuGroup>
           <DropdownMenuLabel>Organizations</DropdownMenuLabel>
-          <DropdownMenuItem>
-            <Avatar className="mr-2 size-5">
-              <AvatarImage src="https://picsum.photos/150/150" />
-              <AvatarFallback />
-            </Avatar>
-            <span className="line-clamp-1">Org 1</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Avatar className="mr-2 size-5">
-              <AvatarImage src="https://picsum.photos/150/150" />
-              <AvatarFallback />
-            </Avatar>
-            <span className="line-clamp-1">Org 2</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Avatar className="mr-2 size-5">
-              <AvatarImage src="https://picsum.photos/150/150" />
-              <AvatarFallback />
-            </Avatar>
-            <span className="line-clamp-1">Org 3</span>
-          </DropdownMenuItem>
+          {organizations?.map((org) => (
+            <DropdownMenuItem asChild>
+              <Link
+                key={org.id}
+                href={`/organizations/${org.slug}`}
+                className="flex items-center"
+              >
+                <Avatar className="mr-2 size-5">
+                  <AvatarImage src={org.avatarUrl || undefined} />
+                  <AvatarFallback />
+                </Avatar>
+                <span className="line-clamp-1">{org.name}</span>
+              </Link>
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
