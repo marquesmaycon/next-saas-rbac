@@ -16,7 +16,7 @@ async function seed() {
   const me = await prisma.user.create({
     data: {
       name: 'Maycon Marques',
-      email: 'maycon@example.com',
+      email: 'maycon@mklly.com',
       avatarUrl: 'https://github.com/marquesmaycon.png',
       passwordHash,
     },
@@ -42,9 +42,9 @@ async function seed() {
 
   await prisma.organization.create({
     data: {
-      name: 'Acme Inc. (Admin)',
-      domain: 'acme.com',
-      slug: 'acme-admin',
+      name: 'Mklly Inc. (Admin)',
+      domain: 'mklly.com',
+      slug: 'mklly-admin',
       avatarUrl: faker.image.avatarGitHub(),
       attachUsersByDomain: true,
       ownerId: me.id,
@@ -75,8 +75,8 @@ async function seed() {
 
   await prisma.organization.create({
     data: {
-      name: 'Acme Inc. (Member)',
-      slug: 'acme-member',
+      name: 'Mklly Inc. (Member)',
+      slug: 'mklly-member',
       avatarUrl: faker.image.avatarGitHub(),
       ownerId: me.id,
       projects: {
@@ -120,8 +120,8 @@ async function seed() {
 
   await prisma.organization.create({
     data: {
-      name: 'Acme Inc. (Billing)',
-      slug: 'acme-billing',
+      name: 'Mklly Inc. (Billing)',
+      slug: 'mklly-billing',
       avatarUrl: faker.image.avatarGitHub(),
       ownerId: me.id,
       projects: {
