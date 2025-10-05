@@ -12,7 +12,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 
-import { signInWithCredentials } from './actions'
+import { signInWithGitHub } from '../actions'
+import { signInWithPassword } from './actions'
 
 const initialState = {
   success: false,
@@ -23,7 +24,7 @@ const initialState = {
 
 export function SignInForm() {
   const [{ success, message, errors, fields }, action, isPending] =
-    useActionState(signInWithCredentials, initialState)
+    useActionState(signInWithPassword, initialState)
 
   return (
     <form action={action} className="space-y-4">
@@ -89,7 +90,11 @@ export function SignInForm() {
 
       <Separator />
 
-      <Button variant="outline" className="w-full">
+      <Button
+        variant="outline"
+        formAction={signInWithGitHub}
+        className="w-full"
+      >
         <Image
           src={gitHubIcon}
           alt="GitHub"

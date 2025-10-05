@@ -6,18 +6,21 @@ import { redirect } from 'next/navigation'
 import z from 'zod'
 
 import type { FormState } from '@/hooks/use-form-state'
-import { signInWithPassword } from '@/http/sign-in-with-password'
+import { authenticateWithPassword } from '@/http/authenticate-with-password'
 
 const signInSchema = z.object({
   email: z.email('Please provide a valid e-mail address.'),
   password: z.string().min(6, 'Password must be at least 6 characters long.'),
 })
 
-export type SignInResponse = FormState<typeof signInSchema.shape> & {
+type SignInResponse = FormState<typeof signInSchema.shape> & {
   fields: { email: string; password: string } | null
 }
 
-export async function signInWithCredentials(_: unknown, formData: FormData) {
+export async function signInWithPassword(
+  _: unknown,
+  formData: FormData,
+): Promise<SignInResponse> {
   const rawData = {
     email: formData.get('email')?.toString() ?? '',
     password: formData.get('password')?.toString() ?? '',
@@ -36,7 +39,7 @@ export async function signInWithCredentials(_: unknown, formData: FormData) {
       }
     }
 
-    const { token } = await signInWithPassword(data)
+    const { token } = await authenticateWithPassword(data)
 
     const ck = await cookies()
     ck.set('token', token, { path: '/', maxAge: 60 * 60 * 24 * 7 })

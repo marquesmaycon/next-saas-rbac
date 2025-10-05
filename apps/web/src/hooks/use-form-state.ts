@@ -5,7 +5,7 @@ import type { $ZodErrorTree } from 'zod/v4/core'
 export type FormState<T extends z.ZodRawShape = z.ZodRawShape> = {
   success: boolean
   message: string
-  errors: $ZodErrorTree<z.infer<T>> | null
+  errors: $ZodErrorTree<T> | null
   fields?: Record<string, string> | null
 }
 
