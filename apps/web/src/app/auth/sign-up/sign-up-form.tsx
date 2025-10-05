@@ -25,6 +25,7 @@ const initalState = {
 export function SignUpForm() {
   const [{ success, message, errors, fields }, action, isPending] =
     useActionState(signUpAction, initalState)
+
   return (
     <form action={action} className="space-y-4">
       {success === false && message && (

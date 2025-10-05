@@ -1,0 +1,19 @@
+import { api } from './api-client'
+
+type CreateOrganizationRequest = {
+  name: string
+  domain: string | null
+  attachUsersByDomain: boolean
+}
+
+type CreateOrganizationResponse = void
+
+export async function createOrganization({
+  name,
+  domain,
+  attachUsersByDomain,
+}: CreateOrganizationRequest): Promise<CreateOrganizationResponse> {
+  await api.post('organizations', {
+    json: { name, domain, attachUsersByDomain },
+  })
+}

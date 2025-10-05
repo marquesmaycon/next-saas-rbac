@@ -1,0 +1,96 @@
+'use server'
+
+import { HTTPError } from 'ky'
+import { redirect } from 'next/navigation'
+import z from 'zod'
+
+import type { FormState } from '@/hooks/use-form-state'
+import { createOrganization } from '@/http/create-organization'
+
+// TO DO => extrair schema para arquivo separado e usar o type nos inital states
+
+const createOrganizationSchema = z
+  .object({
+    name: z.string().min(4, 'Organization name must be at least 4 characters'),
+    domain: z
+      .string()
+      .nullable()
+      .refine(
+        (val) => {
+          if (val) {
+            return /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(val)
+          }
+          return true
+        },
+        { error: 'Invalid domain format' },
+      ),
+    attachUsersByDomain: z
+      .union([z.literal('on'), z.literal('off'), z.boolean()])
+      .transform((value) => value === true || value === 'on')
+      .default(false),
+  })
+  .refine(
+    (data) => {
+      if (data.attachUsersByDomain === true && !data.domain) {
+        return false
+      }
+      return true
+    },
+    {
+      message: 'Domain is required when auto-join is enabled.',
+      path: ['domain'],
+    },
+  )
+
+type CreateOrganizationResponse = FormState<
+  typeof createOrganizationSchema.shape
+>
+
+export async function createOrganizationAction(
+  _: unknown,
+  formData: FormData,
+): Promise<CreateOrganizationResponse> {
+  const rawData = {
+    name: formData.get('name')?.toString() ?? '',
+    domain: formData.get('domain')?.toString() ?? null,
+    attachUsersByDomain:
+      formData.get('attachUsersByDomain')?.toString() === 'on',
+  }
+
+  const { success, data, error } = createOrganizationSchema.safeParse(rawData)
+
+  if (!success) {
+    const errors = z.treeifyError(error)
+    return {
+      success: false,
+      message: '',
+      errors,
+      fields: rawData,
+    }
+  }
+
+  const { name, domain, attachUsersByDomain } = data
+
+  try {
+    await createOrganization({ name, domain, attachUsersByDomain })
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      const { message } = await error.response.json<{ message: string }>()
+      return {
+        success: false,
+        message,
+        errors: null,
+        fields: rawData,
+      }
+    }
+
+    return {
+      success: false,
+      message: 'Unexpected error occurred.',
+      errors: null,
+      fields: rawData,
+    }
+  }
+
+  redirect('/org')
+}
