@@ -42,7 +42,7 @@ export async function OrgSwitcher() {
         <DropdownMenuGroup>
           <DropdownMenuLabel>Organizations</DropdownMenuLabel>
           {organizations?.map((org) => (
-            <DropdownMenuItem asChild>
+            <DropdownMenuItem key={org.id} asChild>
               <Link
                 key={org.id}
                 href={`/org/${org.slug}`}
