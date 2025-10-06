@@ -1,5 +1,5 @@
 import { organizationSchema } from '@saas/auth'
-import { ArrowLeftRight, Crown } from 'lucide-react'
+import { ArrowLeftRight, Crown, UserMinus } from 'lucide-react'
 
 import { ability, getCurrentOrg } from '@/auth/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -9,6 +9,8 @@ import { getMembers } from '@/http/get-members'
 import { getMembership } from '@/http/get-membership'
 import { getOrganization } from '@/http/get-organization'
 import { getUserInitials } from '@/lib/utils'
+
+import { removeMemberAction } from './actions'
 
 export default async function MembersList() {
   const slug = await getCurrentOrg()
@@ -29,6 +31,7 @@ export default async function MembersList() {
         <Table>
           <TableBody>
             {members.map((member) => {
+              const isMe = member.userId === membership?.userId
               const isOwner = member.userId === organization?.ownerId
               return (
                 <TableRow key={member.id}>
@@ -46,8 +49,7 @@ export default async function MembersList() {
                   <TableCell>
                     <div className="flex flex-col">
                       <span className="inline-flex items-center gap-2 font-medium">
-                        {member.name}{' '}
-                        {member.userId === membership?.userId && '(me)'}
+                        {member.name} {isMe && '(me)'}
                         {isOwner && (
                           <span className="text-muted-foreground inline-flex items-center gap-1 text-xs">
                             <Crown className="size-3" /> Owner
@@ -68,6 +70,19 @@ export default async function MembersList() {
                             Transfer ownership
                           </Button>
                         )}
+                      {permissions?.can('delete', 'User') && (
+                        <form action={removeMemberAction.bind(null, member.id)}>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            disabled={isMe || isOwner}
+                            type="submit"
+                          >
+                            <UserMinus className="mr-2 size-4" />
+                            Remove
+                          </Button>
+                        </form>
+                      )}
                     </div>
                   </TableCell>
                 </TableRow>
@@ -81,3 +96,4 @@ export default async function MembersList() {
 }
 
 // TO DO => unificar user avatar com org e pj avatar
+// TO DO => adicionar confirmação ao remover membro

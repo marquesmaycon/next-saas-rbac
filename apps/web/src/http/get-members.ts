@@ -15,6 +15,10 @@ type GetMembersResponse = {
 
 export async function getMembers(slug: string) {
   return await api
-    .get(`organizations/${slug}/members`)
+    .get(`organizations/${slug}/members`, {
+      next: {
+        tags: [`${slug}/members`],
+      },
+    })
     .json<GetMembersResponse>()
 }
