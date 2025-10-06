@@ -15,8 +15,5 @@ type GetOrganizationResponse = {
 }
 
 export async function getOrganization(org: string) {
-  const res = await api
-    .get(`organizations/${org}`)
-    .json<GetOrganizationResponse>()
-  return res
+  return await api.get(`organizations/${org}`).json<GetOrganizationResponse>()
 }

@@ -1,4 +1,4 @@
-import { Role } from '@saas/auth'
+import type { Role } from '@saas/auth'
 
 import { api } from './api-client'
 
@@ -12,8 +12,7 @@ type GetMembershipResponse = {
 }
 
 export async function getMembership(org: string) {
-  const res = await api
+  return await api
     .get(`organizations/${org}/membership`)
     .json<GetMembershipResponse>()
-  return res
 }
