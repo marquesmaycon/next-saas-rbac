@@ -1,14 +1,17 @@
 'use server'
 
 import { HTTPError } from 'ky'
+import { revalidateTag } from 'next/cache'
 import z from 'zod'
 
+import { getCurrentOrg } from '@/auth/auth'
 import type { FormState } from '@/hooks/use-form-state'
 import { createOrganization } from '@/http/create-organization'
+import { updateOrganization } from '@/http/update-organization'
 
 // TO DO => extrair schema para arquivo separado e usar o type nos inital states
 
-const createOrganizationSchema = z
+const organizationSchema = z
   .object({
     name: z.string().min(4, 'Organization name must be at least 4 characters'),
     domain: z
@@ -41,9 +44,9 @@ const createOrganizationSchema = z
     },
   )
 
-type CreateOrganizationResponse = FormState<
-  typeof createOrganizationSchema.shape
->
+export type OrganizationSchema = z.infer<typeof organizationSchema>
+
+type CreateOrganizationResponse = FormState<typeof organizationSchema.shape>
 
 export async function createOrganizationAction(
   _: unknown,
@@ -56,7 +59,7 @@ export async function createOrganizationAction(
       formData.get('attachUsersByDomain')?.toString() === 'on',
   }
 
-  const { success, data, error } = createOrganizationSchema.safeParse(rawData)
+  const { success, data, error } = organizationSchema.safeParse(rawData)
 
   if (!success) {
     const errors = z.treeifyError(error)
@@ -72,6 +75,65 @@ export async function createOrganizationAction(
 
   try {
     await createOrganization({ name, domain, attachUsersByDomain })
+    revalidateTag('organizations')
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      const { message } = await error.response.json<{ message: string }>()
+      return {
+        success: false,
+        message,
+        errors: null,
+        fields: rawData,
+      }
+    }
+
+    return {
+      success: false,
+      message: 'Unexpected error occurred.',
+      errors: null,
+      fields: rawData,
+    }
+  }
+
+  return {
+    success: true,
+    message: '',
+    errors: null,
+    fields: null,
+  }
+}
+
+export async function updateOrganizationAction(
+  _: unknown,
+  formData: FormData,
+): Promise<CreateOrganizationResponse> {
+  const rawData = {
+    name: formData.get('name')?.toString() ?? '',
+    domain: formData.get('domain')?.toString() ?? null,
+    attachUsersByDomain:
+      formData.get('attachUsersByDomain')?.toString() === 'on',
+  }
+
+  const { success, data, error } = organizationSchema.safeParse(rawData)
+
+  if (!success) {
+    const errors = z.treeifyError(error)
+    return {
+      success: false,
+      message: '',
+      errors,
+      fields: rawData,
+    }
+  }
+
+  const { name, domain, attachUsersByDomain } = data
+
+  try {
+    const org = await getCurrentOrg()
+
+    await updateOrganization({ org: org!, name, domain, attachUsersByDomain })
+
+    revalidateTag('organizations')
   } catch (error) {
     if (error instanceof HTTPError) {
       const { message } = await error.response.json<{ message: string }>()

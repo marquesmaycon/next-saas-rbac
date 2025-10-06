@@ -9,7 +9,16 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-import { createOrganizationAction } from '../create-organization/actions'
+import {
+  createOrganizationAction,
+  type OrganizationSchema,
+  updateOrganizationAction,
+} from './actions'
+
+type OrganizationFormProps = {
+  isUpdating?: boolean
+  initialData?: OrganizationSchema
+}
 
 const initialState = {
   success: false,
@@ -18,16 +27,25 @@ const initialState = {
   fields: { name: '', domain: '', attachUsersByDomain: false },
 }
 
-export function OrganizationForm() {
+// TO DO => criar custom hook para form actions com useFormActio e initalState
+
+export function OrganizationForm({
+  isUpdating = false,
+  initialData,
+}: OrganizationFormProps) {
+  const formAction = isUpdating
+    ? updateOrganizationAction
+    : createOrganizationAction
+
   const [{ success, message, errors, fields }, action, isPending] =
-    useActionState(createOrganizationAction, initialState)
+    useActionState(formAction, initialState)
 
   return (
     <form action={action} className="space-y-4">
       {success === false && message && (
         <Alert variant="destructive">
           <AlertTriangle className="size-4" />
-          <AlertTitle>Sign in failed!</AlertTitle>
+          <AlertTitle>{message}</AlertTitle>
           <AlertDescription>
             <p>{message}</p>
           </AlertDescription>
@@ -35,7 +53,11 @@ export function OrganizationForm() {
       )}
       <div className="space-y-1">
         <Label htmlFor="name">Organization Name</Label>
-        <Input id="name" name="name" defaultValue={fields?.name} />
+        <Input
+          id="name"
+          name="name"
+          defaultValue={fields?.name || initialData?.name}
+        />
         {errors?.properties?.name && (
           <p className="text-xs font-medium text-red-500 dark:text-red-400">
             {errors.properties.name.errors[0]}
@@ -50,7 +72,7 @@ export function OrganizationForm() {
           name="domain"
           inputMode="url"
           placeholder="example.com"
-          defaultValue={fields?.domain ?? ''}
+          defaultValue={fields?.domain || initialData?.domain || undefined}
         />
         {errors?.properties?.domain && (
           <p className="text-xs font-medium text-red-500 dark:text-red-400">
@@ -65,7 +87,10 @@ export function OrganizationForm() {
             name="attachUsersByDomain"
             id="attachUsersByDomain"
             className="translate-y-0.5"
-            checked={fields?.attachUsersByDomain === true}
+            defaultChecked={
+              (fields?.attachUsersByDomain ||
+                initialData?.attachUsersByDomain) === true
+            }
           />
           <label htmlFor="attachUsersByDomain" className="space-y-1">
             <span className="text-sm leading-none font-medium">
