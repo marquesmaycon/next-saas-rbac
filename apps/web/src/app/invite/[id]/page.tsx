@@ -1,7 +1,8 @@
 import dayjs from 'dayjs'
 import relativetime from 'dayjs/plugin/relativeTime'
-import { CheckCircle, LogIn } from 'lucide-react'
+import { CheckCircle, LogIn, LogOut } from 'lucide-react'
 import { cookies } from 'next/headers'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
@@ -22,8 +23,8 @@ type InvitePageProps = {
 export default async function InvitePage({ params }: InvitePageProps) {
   const { id } = await params
   const { invite } = await getInvite(id)
+  const { user } = await auth()
   const isUserAuthenticated = await isAuthenticated()
-  const isUserAndInviteEmailMatch = (await auth()).user?.email === invite?.email
 
   async function signInFromInvite() {
     'use server'
@@ -42,11 +43,13 @@ export default async function InvitePage({ params }: InvitePageProps) {
     redirect(`/org/${invite.organization?.slug}/`)
   }
 
+  const isUserAndInviteEmailMatch = user?.email === invite?.email
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4">
       <div className="flex w-full max-w-sm flex-col justify-center space-y-6">
         <div className="flex flex-col items-center space-y-4">
-          <Avatar className="size-12">
+          <Avatar className="size-16">
             <AvatarImage src={invite?.author?.avatarUrl || undefined} />
             <AvatarFallback>
               {getUserInitials(invite?.author?.name || '')}
@@ -86,6 +89,30 @@ export default async function InvitePage({ params }: InvitePageProps) {
               Join {invite?.organization?.name}
             </Button>
           </form>
+        )}
+
+        {isUserAuthenticated && !isUserAndInviteEmailMatch && (
+          <div className="space-y-4">
+            <p className="text-muted-foreground text-center text-sm leading-relaxed text-balance">
+              This invite was sent to{' '}
+              <span className="text-foreground font-medium">
+                {invite?.email}
+              </span>{' '}
+              but your are logged in as{' '}
+              <span className="text-foreground font-medium">{user?.email}</span>
+            </p>
+
+            <div className="space-y-2">
+              <Button variant="secondary" asChild className="w-full">
+                <a href="/api/auth/sign-out">
+                  <LogOut className="mr-1 size-4" /> Sign out from {user?.email}
+                </a>
+              </Button>
+              <Button variant="outline" asChild className="w-full">
+                <Link href="/">Back to Dashboard</Link>
+              </Button>
+            </div>
+          </div>
         )}
       </div>
     </div>
