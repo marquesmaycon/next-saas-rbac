@@ -1,13 +1,9 @@
 import { ability, getCurrentOrg } from '@/auth/auth'
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { getInvites } from '@/http/get-invites'
 
+import { CreateInviteForm } from './create-invite-form'
 import RevokeInviteButton from './revoke-invite-button'
 
 export default async function Invites() {
@@ -24,7 +20,9 @@ export default async function Invites() {
           <CardHeader>
             <CardTitle>Send an invite</CardTitle>
           </CardHeader>
-          <CardDescription></CardDescription>
+          <CardContent>
+            <CreateInviteForm />
+          </CardContent>
         </Card>
       )}
 

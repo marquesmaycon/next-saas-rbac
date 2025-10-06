@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+/* TO DO => adicionar estilo ao scroll */
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
