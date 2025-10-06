@@ -1,13 +1,15 @@
 'use client'
 
 import { AlertTriangle, Loader2 } from 'lucide-react'
-import { useActionState } from 'react'
+import { useParams } from 'next/navigation'
+import { useActionState, useEffect } from 'react'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { queryClient } from '@/lib/tanstack-query'
 
 import { createProjectAction } from './actions'
 
@@ -15,12 +17,19 @@ const initialState = {
   success: false,
   message: '',
   errors: null,
-  fields: { name: '', domain: '', attachUsersByDomain: false },
+  fields: { name: '', description: '' },
 }
 
 export function ProjectForm() {
+  const { slug } = useParams<{ slug: string }>()
   const [{ success, message, errors, fields }, action, isPending] =
     useActionState(createProjectAction, initialState)
+
+  useEffect(() => {
+    if (success) {
+      queryClient.invalidateQueries({ queryKey: [slug, 'projects'] })
+    }
+  }, [success, slug])
 
   return (
     <form action={action} className="space-y-4">

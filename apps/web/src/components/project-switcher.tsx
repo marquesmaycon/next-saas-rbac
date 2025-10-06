@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 
 import { getProjects } from '@/http/get-projects'
+import { getUserInitials } from '@/lib/utils'
 
 import { Avatar, AvatarImage } from './ui/avatar'
 import {
@@ -102,9 +103,11 @@ const ProjectAvatar = ({
 }) => {
   return (
     <>
-      <Avatar className="mr-2 size-8">
+      <Avatar className="mr-2">
         <AvatarImage src={avatarUrl || undefined} />
-        <AvatarFallback />
+        <AvatarFallback className="size-8">
+          {getUserInitials(name)}
+        </AvatarFallback>
       </Avatar>
       <span className="truncate text-start">{name}</span>
     </>

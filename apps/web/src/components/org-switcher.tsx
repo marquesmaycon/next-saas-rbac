@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import { getCurrentOrg } from '@/auth/auth'
 import { getOrganizations } from '@/http/get-organizations'
+import { getUserInitials } from '@/lib/utils'
 
 import { Avatar, AvatarImage } from './ui/avatar'
 import {
@@ -71,6 +72,8 @@ export async function OrgSwitcher() {
   )
 }
 
+// TO DO => Fix Org and Project Avatar duplication and Fallback size
+
 const OrgAvatar = ({
   avatarUrl,
   name,
@@ -82,7 +85,9 @@ const OrgAvatar = ({
     <>
       <Avatar className="mr-2 size-8">
         <AvatarImage src={avatarUrl || undefined} />
-        <AvatarFallback />
+        <AvatarFallback className="size-8">
+          {getUserInitials(name)}
+        </AvatarFallback>
       </Avatar>
       <span className="truncate text-start">{name}</span>
     </>
