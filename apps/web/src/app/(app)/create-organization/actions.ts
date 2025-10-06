@@ -1,7 +1,6 @@
 'use server'
 
 import { HTTPError } from 'ky'
-import { redirect } from 'next/navigation'
 import z from 'zod'
 
 import type { FormState } from '@/hooks/use-form-state'
@@ -92,5 +91,10 @@ export async function createOrganizationAction(
     }
   }
 
-  redirect('/org')
+  return {
+    success: true,
+    message: '',
+    errors: null,
+    fields: null,
+  }
 }

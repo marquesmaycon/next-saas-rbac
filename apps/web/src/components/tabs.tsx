@@ -33,6 +33,7 @@ export default async function Tabs() {
           if (!tab.can) return null
           return (
             <Button
+              key={tab.name}
               asChild
               variant="ghost"
               size="sm"
