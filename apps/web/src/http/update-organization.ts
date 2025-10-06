@@ -1,17 +1,19 @@
 import { api } from './api-client'
 
-type CreateOrganizationRequest = {
+type UpdateOrganizationRequest = {
+  org: string
   name: string
   domain: string | null
   attachUsersByDomain: boolean
 }
 
-export async function createOrganization({
+export async function updateOrganization({
+  org,
   name,
   domain,
   attachUsersByDomain,
-}: CreateOrganizationRequest) {
-  await api.post('organizations', {
+}: UpdateOrganizationRequest) {
+  await api.put(`organizations/${org}`, {
     json: { name, domain, attachUsersByDomain },
   })
 }

@@ -1,3 +1,5 @@
+import type { Role } from '@saas/auth'
+
 import { api } from './api-client'
 
 type GetOrganizationsResponse = {
@@ -6,11 +8,17 @@ type GetOrganizationsResponse = {
     id: string
     slug: string
     avatarUrl: string | null
-    // role: 'ADMIN' | 'MEMBER' | 'BILLING'
+    role: Role
   }[]
 }
 
 export async function getOrganizations() {
-  const res = await api.get('organizations').json<GetOrganizationsResponse>()
+  const res = await api
+    .get('organizations', {
+      next: {
+        tags: ['organizations'],
+      },
+    })
+    .json<GetOrganizationsResponse>()
   return res
 }
