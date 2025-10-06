@@ -12,8 +12,8 @@ export default async function MembersPage() {
   return (
     <div className="space-y-4">
       <div className="text-2xl font-bold">Members</div>
-      {canGetMembers && <MembersList />}
       {canGetInvites && <Invites />}
+      {canGetMembers && <MembersList />}
     </div>
   )
 }
