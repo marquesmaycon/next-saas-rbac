@@ -11,6 +11,7 @@ import { getOrganization } from '@/http/get-organization'
 import { getUserInitials } from '@/lib/utils'
 
 import { removeMemberAction } from './actions'
+import MemberRoleSelect from './member-role-select'
 
 export default async function MembersList() {
   const slug = await getCurrentOrg()
@@ -70,6 +71,17 @@ export default async function MembersList() {
                             Transfer ownership
                           </Button>
                         )}
+
+                      <MemberRoleSelect
+                        memberId={member.id}
+                        value={member.role}
+                        disabled={
+                          isMe ||
+                          isOwner ||
+                          permissions?.cannot('update', 'User')
+                        }
+                      />
+
                       {permissions?.can('delete', 'User') && (
                         <form action={removeMemberAction.bind(null, member.id)}>
                           <Button

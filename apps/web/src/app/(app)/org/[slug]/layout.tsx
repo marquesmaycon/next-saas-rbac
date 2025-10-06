@@ -7,7 +7,7 @@ export default async function OrgLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className="space-y-4 py-4">
+    <div className="space-y-4 px-4 py-4">
       <Header />
       <Tabs />
       <main className="mx-auto w-full max-w-[1200px] space-y-4">

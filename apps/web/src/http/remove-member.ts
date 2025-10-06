@@ -6,9 +6,5 @@ type RemoveMemberRequest = {
 }
 
 export async function removeMember({ org, memberId }: RemoveMemberRequest) {
-  await api
-    .delete(`organizations/${org}/members/${memberId}`, {
-      json: { org },
-    })
-    .json<void>()
+  await api.delete(`organizations/${org}/members/${memberId}`).json<void>()
 }
