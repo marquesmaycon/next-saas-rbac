@@ -3,6 +3,7 @@
 import { AlertTriangle, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useActionState } from 'react'
 
 import gitHubIcon from '@/assets/github-icon.svg'
@@ -22,10 +23,14 @@ const initialState = {
   fields: { email: '', password: '' },
 }
 
+// TO DO => show a toast that the user has been registered
+
 export function SignInForm() {
+  const searchParams = useSearchParams()
   const [{ success, message, errors, fields }, action, isPending] =
     useActionState(signInWithPassword, initialState)
-  // const isRegistered = searchParams.get('registered') === '1' // TO DO => show a toast that the user has been registered
+
+  console.log(searchParams.get('email') ?? fields?.email)
 
   return (
     <form action={action} className="space-y-4">
@@ -44,7 +49,7 @@ export function SignInForm() {
           type="email"
           id="email"
           name="email"
-          defaultValue={fields?.email}
+          defaultValue={searchParams.get('email') ?? fields?.email}
         />
 
         {errors?.properties?.email && (

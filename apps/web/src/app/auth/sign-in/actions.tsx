@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import z from 'zod'
 
 import type { FormState } from '@/hooks/use-form-state'
+import { acceptInvite } from '@/http/accept-invite'
 import { authenticateWithPassword } from '@/http/authenticate-with-password'
 
 const signInSchema = z.object({
@@ -41,6 +42,15 @@ export async function signInWithPassword(
 
     const ck = await cookies()
     ck.set('token', token, { path: '/', maxAge: 60 * 60 * 24 * 7 })
+
+    const inviteId = ck.get('inviteId')?.value
+
+    if (inviteId) {
+      try {
+        await acceptInvite(inviteId)
+        ck.delete('inviteId')
+      } catch {}
+    }
   } catch (error) {
     if (error instanceof HTTPError) {
       const { message } = await error.response.json<{ message: string }>()

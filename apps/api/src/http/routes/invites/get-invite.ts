@@ -30,7 +30,7 @@ export async function getInvite(app: FastifyInstance) {
                   avatarUrl: z.url().nullable(),
                 })
                 .nullable(),
-              organization: z.object({ name: z.string() }),
+              organization: z.object({ name: z.string(), slug: z.string() }),
             }),
           }),
         },
@@ -46,7 +46,7 @@ export async function getInvite(app: FastifyInstance) {
           role: true,
           createdAt: true,
           author: { select: { id: true, name: true, avatarUrl: true } },
-          organization: { select: { name: true } },
+          organization: { select: { name: true, slug: true } },
         },
         where: { id: inviteId },
       })

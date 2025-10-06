@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import { type NextRequest, NextResponse } from 'next/server'
 
+import { acceptInvite } from '@/http/accept-invite'
 import { authenticateWithGitHub } from '@/http/authenticate-with-github'
 
 export async function GET(request: NextRequest) {
@@ -17,6 +18,15 @@ export async function GET(request: NextRequest) {
   const { token } = await authenticateWithGitHub({ code })
   const ck = await cookies()
   ck.set('token', token, { path: '/', maxAge: 60 * 60 * 24 * 7 })
+
+  const inviteId = ck.get('inviteId')?.value
+
+  if (inviteId) {
+    try {
+      await acceptInvite(inviteId)
+      ck.delete('inviteId')
+    } catch {}
+  }
 
   const redirectUrl = request.nextUrl.clone()
   redirectUrl.pathname = '/'

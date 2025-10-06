@@ -1,7 +1,7 @@
 'use client'
 
 import type { Role } from '@saas/auth'
-import { AlertTriangle, Loader2 } from 'lucide-react'
+import { AlertTriangle, Loader2, UserPlus } from 'lucide-react'
 import { useActionState } from 'react'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -81,7 +81,10 @@ export function CreateInviteForm() {
           {isPending ? (
             <Loader2 className="mr-2 size-4 animate-spin" />
           ) : (
-            'Send Invite'
+            <>
+              <UserPlus className="mr-1 size-4" />
+              Send Invite
+            </>
           )}
         </Button>
       </div>
