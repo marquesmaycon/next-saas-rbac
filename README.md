@@ -7,15 +7,6 @@
 ![Prisma](https://img.shields.io/badge/Prisma-6.16.3-2D3748?style=flat-square&logo=prisma)
 
 Um boilerplate completo para **SaaS multi-tenant** com autenticação robusta e sistema de autorização baseado em **RBAC (Role-Based Access Control)**. Desenvolvido com as melhores práticas e arquitetura monorepo para máxima escalabilidade e reutilização de código.
-# 🚀 Next.js SaaS + RBAC
-
-![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black?style=flat-square&logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)
-![Turborepo](https://img.shields.io/badge/Turborepo-2.5.8-ff6d70?style=flat-square&logo=turborepo)
-![Fastify](https://img.shields.io/badge/Fastify-5.6.1-white?style=flat-square&logo=fastify)
-![Prisma](https://img.shields.io/badge/Prisma-6.16.3-2D3748?style=flat-square&logo=prisma)
-
-Um boilerplate completo para **SaaS multi-tenant** com autenticação robusta e sistema de autorização baseado em **RBAC (Role-Based Access Control)**. Desenvolvido com as melhores práticas e arquitetura monorepo para máxima escalabilidade e reutilização de código.
 
 ## 📋 Índice
 
