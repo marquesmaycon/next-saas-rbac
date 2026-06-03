@@ -1,116 +1,62 @@
 # Next SaaS RBAC
 
-Monorepo SaaS multi-tenant com autenticação, organizações, convites, projetos e autorização baseada em RBAC usando Next.js, Fastify, Prisma e Turborepo.
+Monorepo SaaS multi-tenant com autenticação robusta e sistema de autorização baseado em RBAC (Role-Based Access Control)
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.5.4-000000?logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.1.0-61DAFB?logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript)](https://www.typescriptlang.org/)
-[![Fastify](https://img.shields.io/badge/Fastify-5.6.1-000000?logo=fastify)](https://fastify.dev/)
-[![Prisma](https://img.shields.io/badge/Prisma-6.16.3-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Turborepo](https://img.shields.io/badge/Turborepo-2.5.8-EF4444?logo=turborepo)](https://turbo.build/repo)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=plastic&logo=nextdotjs)
+![React](https://img.shields.io/badge/React-20232A?style=plastic&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=plastic&logo=typescript&logoColor=fff)
+![Fastify](https://img.shields.io/badge/Fastify-000000?style=plastic&logo=fastify)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=plastic&logo=tailwindcss&logoColor=fff)
+![Radix UI](https://img.shields.io/badge/Radix_UI-161618?style=plastic&logo=radixui&logoColor=fff)
+![TanStack Query](https://img.shields.io/badge/TanStack_Query-FF4154?style=plastic&logo=reactquery&logoColor=FFF)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=plastic&logo=prisma)
+![Turborepo](https://img.shields.io/badge/Turborepo-EF4444?style=plastic&logo=turborepo&logoColor=fff)
 
 ## Sobre
 
-O Next SaaS RBAC é uma base completa para aplicações SaaS B2B. O projeto implementa autenticação por e-mail/senha e GitHub OAuth, gestão de organizações, membros, convites, projetos e permissões granulares por papel.
-
-A proposta é demonstrar uma arquitetura escalável em monorepo, com regras de autorização compartilhadas entre frontend e backend e uma separação clara entre apps, pacotes de domínio e configurações comuns.
+Monorepo SaaS multi-tenant com autenticação robusta e sistema de autorização baseado em RBAC (Role-Based Access Control)
 
 ## Funcionalidades
 
-- Autenticação com e-mail/senha e OAuth via GitHub.
-- Organizações multi-tenant com isolamento de contexto.
-- Convites para novos membros com definição de papel.
-- Papéis de usuário: admin, member e billing.
-- Controle de permissões por recurso usando RBAC.
-- Gestão de projetos vinculados a organizações.
-- API REST com validação de payloads e documentação Swagger.
-- Frontend com rotas protegidas, formulários e cache de dados.
-- Configuração compartilhada de TypeScript, ESLint e Prettier.
+- Autenticacao e autorizacao para aplicacoes SaaS.
+- Controle de acesso baseado em papeis e permissoes.
+- Organizacao multi-tenant para times e usuarios.
+- Estrutura de monorepo para frontend, backend e pacotes compartilhados.
 
 ## Stack
 
-- **Next.js 15** para a aplicação web.
-- **React 19** para a interface.
-- **Fastify 5** para a API.
-- **Prisma ORM** para modelagem e acesso ao banco.
-- **PostgreSQL** como banco relacional.
-- **JWT** para autenticação na API.
-- **TanStack Query** para cache e sincronização no frontend.
-- **Radix UI** e **Tailwind CSS** para componentes e estilos.
-- **Turborepo** para orquestração do monorepo.
-
-## Arquitetura
-
-```txt
-.
-├── apps/
-│   ├── api/         # API Fastify, Prisma, rotas e regras de backend
-│   └── web/         # Aplicação Next.js
-├── packages/
-│   ├── auth/        # Roles, permissões e modelos de autorização
-│   └── env/         # Validação centralizada de variáveis de ambiente
-└── config/
-    ├── eslint-config/
-    ├── prettier/
-    └── typescript-config/
-```
+- Next.js
+- React
+- TypeScript
+- Fastify
+- TailwindCSS
+- Radix UI
+- TanStack Query
+- Prisma
+- Turborepo
 
 ## Como executar
 
-### Pré-requisitos
-
-- Node.js 18 ou superior.
-- npm.
-- PostgreSQL.
-
-### Instalação
-
 ```bash
-git clone https://github.com/marquesmaycon/next-saas-rbac.git
-cd next-saas-rbac
 npm install
-```
-
-Crie um arquivo `.env` na raiz do monorepo com as variáveis necessárias para banco, JWT e OAuth.
-
-Execute as migrações:
-
-```bash
-npm --workspace @saas/api run db:migrate
-```
-
-Inicie os apps:
-
-```bash
 npm run dev
 ```
 
-## Scripts disponíveis
+## Scripts disponiveis
 
 ```bash
-npm run dev          # Inicia web e API pelo Turborepo
-npm run build        # Gera build dos workspaces
-npm run lint         # Executa lint nos workspaces
-npm run check-types  # Valida tipagem TypeScript
+npm run dev
+npm run build
+npm run lint
 ```
 
-Scripts específicos da API:
+## Destaques tecnicos
 
-```bash
-npm --workspace @saas/api run db:migrate
-npm --workspace @saas/api run db:studio
-```
+- Arquitetura SaaS com RBAC como parte central do dominio.
+- Monorepo com Turborepo para organizar aplicacoes e pacotes.
+- Integracao entre Next.js, Fastify, Prisma e banco de dados.
 
-## Destaques técnicos
-
-- RBAC modelado como pacote compartilhado, evitando duplicação de regras.
-- Separação entre aplicação web, API e pacotes internos.
-- Validação de ambiente centralizada.
-- Rotas e payloads validados com Zod.
-- Uso de workspaces para manter dependências e scripts organizados.
-- Arquitetura preparada para evolução de produto SaaS.
-
----
+## Autor
 
 <div align="center">
   <img src="https://github.com/marquesmaycon.png" width="100px" style="border-radius: 50%"/>
@@ -119,7 +65,8 @@ npm --workspace @saas/api run db:studio
   <br/>
   <br/>
 
-  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mayconhenrique/)
+  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjU2JyBoZWlnaHQ9JzI1NicgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSd4TWlkWU1pZCcgdmlld0JveD0nMCAwIDI1NiAyNTYnPjxwYXRoIGQ9J00yMTguMTIzIDIxOC4xMjdoLTM3LjkzMXYtNTkuNDAzYzAtMTQuMTY1LS4yNTMtMzIuNC0xOS43MjgtMzIuNC0xOS43NTYgMC0yMi43NzkgMTUuNDM0LTIyLjc3OSAzMS4zNjl2NjAuNDNoLTM3LjkzVjk1Ljk2N2gzNi40MTN2MTYuNjk0aC41MWEzOS45MDcgMzkuOTA3IDAgMCAxIDM1LjkyOC0xOS43MzNjMzguNDQ1IDAgNDUuNTMzIDI1LjI4OCA0NS41MzMgNTguMTg2bC0uMDE2IDY3LjAxM1pNNTYuOTU1IDc5LjI3Yy0xMi4xNTcuMDAyLTIyLjAxNC05Ljg1Mi0yMi4wMTYtMjIuMDA5LS4wMDItMTIuMTU3IDkuODUxLTIyLjAxNCAyMi4wMDgtMjIuMDE2IDEyLjE1Ny0uMDAzIDIyLjAxNCA5Ljg1MSAyMi4wMTYgMjIuMDA4QTIyLjAxMyAyMi4wMTMgMCAwIDEgNTYuOTU1IDc5LjI3bTE4Ljk2NiAxMzguODU4SDM3Ljk1Vjk1Ljk2N2gzNy45N3YxMjIuMTZaTTIzNy4wMzMuMDE4SDE4Ljg5QzguNTgtLjA5OC4xMjUgOC4xNjEtLjAwMSAxOC40NzF2MjE5LjA1M2MuMTIyIDEwLjMxNSA4LjU3NiAxOC41ODIgMTguODkgMTguNDc0aDIxOC4xNDRjMTAuMzM2LjEyOCAxOC44MjMtOC4xMzkgMTguOTY2LTE4LjQ3NFYxOC40NTRjLS4xNDctMTAuMzMtOC42MzUtMTguNTg4LTE4Ljk2Ni0xOC40NTMnIGZpbGw9JyNmZmYnLz48L3N2Zz4K)](https://www.linkedin.com/in/mayconhenrique/)
   [![GitHub](https://img.shields.io/badge/GitHub-100000?style=flat-square&logo=github&logoColor=white)](https://github.com/marquesmaycon)
   [![Email](https://img.shields.io/badge/Email-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:mayconmarquesh@gmail.com)
+  [![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=flat-square&logo=whatsapp&logoColor=white)](https://wa.me/5544991173753)
 </div>
